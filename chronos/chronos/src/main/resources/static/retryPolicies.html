@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Retry Policies - Chronos</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Modal Styling */
+        #updateModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        #updateModal div {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            min-width: 300px;
+            position: relative;
+        }
+        #updateModal label {
+            display: block;
+            margin: 10px 0;
+        }
+        #updateModal button {
+            margin-right: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Retry Policies</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="jobs.html">Jobs</a>
+        <a href="schedules.html">Schedules</a>
+        <a href="executions.html">Executions</a>
+    </nav>
+</header>
+<main>
+    <!-- Create Policy Form -->
+    <section id="policy-form">
+        <h2>Create Policy</h2>
+        <form id="createPolicyForm">
+            <label>Strategy: </label>
+            <div id="createStrategyContainer"></div>
+
+            <label>Initial Backoff (ms): <input type="number" name="backoffInitialMs"></label>
+            <label>Backoff Factor: <input type="number" step="0.1" name="backoffFactor"></label>
+            <label>Max Attempts: <input type="number" name="maxAttempts"></label>
+            <label>Jitter (ms): <input type="number" name="jitterMs"></label>
+            <button type="submit">Create</button>
+        </form>
+    </section>
+
+    <!-- Policies Table -->
+    <section id="policy-list">
+        <h2>All Policies</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Strategy</th>
+                <th>Backoff Initial</th>
+                <th>Backoff Factor</th>
+                <th>Max Attempts</th>
+                <th>Jitter</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody id="policiesTableBody"></tbody>
+        </table>
+    </section>
+</main>
+
+<!-- Update Modal -->
+<div id="updateModal">
+    <div>
+        <h2>Update Policy</h2>
+        <form id="updatePolicyForm">
+            <input type="hidden" name="id">
+            <label>Strategy: </label>
+            <div id="updateStrategyContainer"></div>
+
+            <label>Initial Backoff (ms): <input type="number" name="backoffInitialMs"></label>
+            <label>Backoff Factor: <input type="number" step="0.1" name="backoffFactor"></label>
+            <label>Max Attempts: <input type="number" name="maxAttempts"></label>
+            <label>Jitter (ms): <input type="number" name="jitterMs"></label>
+            <div style="margin-top:10px;">
+                <button type="submit">Update</button>
+                <button type="button" id="closeModalBtn">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="js/retryPolicies.js"></script>
+<script>
+    // Inject Strategy dropdowns for Create and Update forms
+    const STRATEGY_ENUM = ['FIXED', 'EXPONENTIAL_BACKOFF'];
+
+    function createStrategyDropdown(inputName) {
+        const select = document.createElement('select');
+        select.name = inputName;
+        select.required = true;
+        STRATEGY_ENUM.forEach(strategy => {
+            const option = document.createElement('option');
+            option.value = strategy;
+            option.textContent = strategy;
+            select.appendChild(option);
+        });
+        return select;
+    }
+
+    // Create dropdown for create form
+    document.getElementById('createStrategyContainer').appendChild(createStrategyDropdown('strategy'));
+
+    // Create dropdown for update modal form
+    document.getElementById('updateStrategyContainer').appendChild(createStrategyDropdown('strategy'));
+
+    // Close modal button
+    document.getElementById('closeModalBtn').addEventListener('click', () => {
+        document.getElementById('updateModal').style.display = 'none';
+    });
+</script>
+</body>
+</html>
