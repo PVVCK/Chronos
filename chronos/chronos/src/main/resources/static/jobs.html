@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jobs - Chronos</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #f2f2f2; }
+        button { cursor: pointer; margin: 2px; }
+        form label { display: block; margin: 8px 0; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Jobs</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="schedules.html">Schedules</a>
+        <a href="executions.html">Executions</a>
+        <a href="retryPolicies.html">Retry Policies</a>
+    </nav>
+</header>
+<main>
+    <!-- Job Creation Form -->
+    <section id="job-form">
+        <h2>Create Job</h2>
+        <form id="createJobForm">
+            <label>Name: <input type="text" name="name" required></label>
+            <label>Type: <div id="jobTypeContainer"></div></label>
+            <label>Payload: <input type="text" name="payload" required></label>
+            <label>Timeout (seconds): <input type="number" name="timeout" required></label>
+            <label>Max Attempts: <input type="number" name="maxAttempts" required></label>
+            <label>Retry Policy ID: <input type="text" name="retryPolicyId"></label>
+            <label>Owner User ID: <input type="text" name="ownerUserId"></label>
+            <button type="submit">Create</button>
+        </form>
+    </section>
+
+    <!-- Job List Table -->
+    <section id="job-list">
+        <h2>All Jobs</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Payload</th>
+                <th>Timeout</th>
+                <th>Max Attempts</th>
+                <th>Retry Policy</th>
+                <th>Owner</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody id="jobsTableBody"></tbody>
+        </table>
+    </section>
+</main>
+
+<script src="js/jobs.js"></script>
+</body>
+</html>

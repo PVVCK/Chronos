@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Executions - Chronos</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                 background-color: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 20px; border-radius: 5px; min-width: 300px; }
+        .close { float: right; cursor: pointer; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Executions</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="jobs.html">Jobs</a>
+        <a href="schedules.html">Schedules</a>
+        <a href="retryPolicies.html">Retry Policies</a>
+    </nav>
+</header>
+
+<main>
+    <!-- Create Execution -->
+    <section id="execution-form">
+        <h2>Create Execution</h2>
+        <form id="createExecutionForm">
+            <label>Schedule ID: <input type="text" name="scheduleId" required></label>
+            <label>Due At (ISO-8601): <input type="datetime-local" name="dueAt" required></label>
+            <button type="submit">Create</button>
+        </form>
+    </section>
+
+    <!-- Fetch by ID -->
+    <section id="fetch-execution">
+        <h2>Get Execution by ID</h2>
+        <form id="fetchExecutionForm">
+            <label>Execution ID: <input type="text" name="executionId" required></label>
+            <button type="submit">Fetch</button>
+        </form>
+        <pre id="executionDetails"></pre>
+    </section>
+
+    <!-- Get Due Executions -->
+    <section id="due-executions">
+        <h2>Get Due Executions</h2>
+        <form id="dueExecutionsForm">
+            <label>Cutoff Time (ISO-8601): <input type="datetime-local" name="cutoffTime" required></label>
+            <button type="submit">Fetch Due Executions</button>
+        </form>
+        <pre id="dueExecutionsList"></pre>
+    </section>
+
+    <!-- Execution List -->
+    <section id="execution-list">
+        <h2>All Executions</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Schedule ID</th>
+                <th>Job ID</th>
+                <th>Status</th>
+                <th>Due At</th>
+                <th>Enqueued At</th>
+                <th>Started At</th>
+                <th>Finished At</th>
+                <th>Attempt Count</th>
+                <th>Correlation ID</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody id="executionsTableBody"></tbody>
+        </table>
+    </section>
+</main>
+
+<!-- Start Execution Modal -->
+<div id="startExecutionModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('startExecutionModal')">&times;</span>
+        <h2>Start Execution</h2>
+        <form id="startExecutionForm">
+            <input type="hidden" id="startExecutionId">
+            <label>Started At (ISO-8601 optional): <input type="datetime-local" id="startStartedAt"></label>
+            <button type="submit">Start</button>
+        </form>
+    </div>
+</div>
+
+<!-- Finish Execution Modal -->
+<div id="finishExecutionModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('finishExecutionModal')">&times;</span>
+        <h2>Finish Execution</h2>
+        <form id="finishExecutionForm">
+            <input type="hidden" id="finishExecutionId">
+            <label>Success:
+                <select id="finishSuccess" required>
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                </select>
+            </label>
+            <label>Finished At (ISO-8601 optional): <input type="datetime-local" id="finishFinishedAt"></label>
+            <button type="submit">Finish</button>
+        </form>
+    </div>
+</div>
+
+<!-- Cancel Execution Modal -->
+<div id="cancelExecutionModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('cancelExecutionModal')">&times;</span>
+        <h2>Cancel Execution</h2>
+        <form id="cancelExecutionForm">
+            <input type="hidden" id="cancelExecutionId">
+            <label>Reason: <input type="text" id="cancelReason" required></label>
+            <button type="submit">Cancel</button>
+        </form>
+    </div>
+</div>
+
+<script src="js/executions.js"></script>
+</body>
+</html>
